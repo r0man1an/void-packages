@@ -1,0 +1,31 @@
+# Template file for 'phoc'
+pkgname=phoc
+version=0.54.0
+revision=1
+build_style=meson
+configure_args="-Dembed-wlroots=disabled -Dman=false"
+hostmakedepends="git glib-devel meson pkg-config wayland-devel gettext"
+makedepends="gnome-desktop-devel libgmobile-devel libinput-devel
+ libxcb-devel libxkbcommon-devel pixman-devel wlroots0.19-devel
+ wayland-protocols xorg-server-xwayland"
+depends="xorg-server-xwayland"
+short_desc="Display compositor designed for phones"
+maintainer="Fabian Constantinescu <fabian.constantinescu@protonmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/World/Phosh/phoc"
+distfiles="https://gitlab.gnome.org/World/Phosh/phoc/-/archive/v${version}/phoc-v${version}.tar.gz"
+checksum="dc4aa5269c9e3e53be6cc3f25d5db0ab2f507afbb8a33342bea68afefea82948"
+
+_gvdb_commit="4758f6fb7f889e074e13df3f914328f3eecb1fd3"
+
+post_extract() {
+	# Clone gvdb at the specific commit
+	git clone https://gitlab.gnome.org/GNOME/gvdb.git ${wrksrc}/subprojects/gvdb
+	(
+		cd ${wrksrc}/subprojects/gvdb
+		git checkout ${_gvdb_commit}
+	)
+
+	# Remove wrap files that try to download things
+	find ${wrksrc} -name "*.wrap" -delete 2>/dev/null || true
+}
