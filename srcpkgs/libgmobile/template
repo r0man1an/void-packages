@@ -1,0 +1,27 @@
+# Template file for 'libgmobile'
+pkgname=libgmobile
+version=0.7.0
+revision=1
+build_style=meson
+configure_args="-Dgtk_doc=false -Dman=false -Dintrospection=false -Dvapi=false"
+hostmakedepends="glib-devel meson pkg-config"
+makedepends="json-glib-devel"
+short_desc="Functions useful in mobile related, glib based projects"
+maintainer="Fabian Constantinescu <fabian.constantinescu@protonmail.org>"
+license="LGPL-2.1-or-later, GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/World/Phosh/gmobile"
+changelog="https://gitlab.gnome.org/World/Phosh/gmobile/-/raw/main/NEWS"
+distfiles="https://gitlab.gnome.org/World/Phosh/gmobile/-/archive/v${version}/gmobile-v${version}.tar.gz"
+checksum=5baa60d539d06ac582fc8dc9f50263b30205caf599eb4c64fcce3b11e85a1aca
+wrksrc="gmobile-v${version}"
+make_check=no
+
+libgmobile-devel_package() {
+	short_desc+=" - development files"
+	depends="${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+		vmove "usr/lib/*.so"
+	}
+}
