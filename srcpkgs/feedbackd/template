@@ -1,0 +1,28 @@
+# Template file for 'feedbackd'
+pkgname=feedbackd
+version=0.8.9
+revision=1
+build_style=meson
+configure_args="-Dgtk_doc=true -Dman=true -Dtests=false"   # Added -Dtests=false
+hostmakedepends="git glib-devel gobject-introspection meson pkg-config python3-docutils vala"
+makedepends="dconf-devel glib-devel gsound-devel json-glib-devel libgudev-devel libgmobile-devel"
+depends="dconf gsettings-desktop-schemas"
+short_desc="Daemon to provide haptic feedback on events"
+maintainer="Your Name <you@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.freedesktop.org/agx/feedbackd"
+distfiles="https://gitlab.freedesktop.org/agx/feedbackd/-/archive/v${version}/feedbackd-v${version}.tar.gz"
+checksum=046439dd165af6a79b989c2085863e25c7c7006be580cef937b32bf60b7aa53f
+
+# Development package
+feedbackd-devel_package() {
+    depends="${makedepends} ${pkgname}>=${version}_${revision}"
+    short_desc+=" - development files"
+    pkg_install() {
+        vmove usr/include
+        vmove usr/lib/pkgconfig
+        vmove usr/lib/*.so
+        vmove usr/share/gir-1.0
+        vmove usr/share/vala
+    }
+}
