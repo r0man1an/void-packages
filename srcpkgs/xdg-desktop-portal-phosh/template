@@ -1,0 +1,41 @@
+# Template file for 'xdg-desktop-portal-phosh'
+pkgname=xdg-desktop-portal-phosh
+version=0.53.0
+revision=1
+build_style=meson
+hostmakedepends="git glib-devel meson pkg-config rust cargo gettext python3-docutils"
+makedepends="glib-devel gtk4-devel libadwaita-devel gnome-desktop-devel xdg-desktop-portal"
+depends="xdg-desktop-portal"
+short_desc="Phosh portal backend for xdg-desktop-portal"
+maintainer="Fabian Constantinescu <fabian.constantinescu@protonmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.gnome.org/World/Phosh/xdg-desktop-portal-phosh"
+
+create_wrksrc=yes
+_git_revision="v${version}"
+
+do_extract() {
+	git clone https://gitlab.gnome.org/World/Phosh/xdg-desktop-portal-phosh.git ${wrksrc}
+	cd ${wrksrc}
+	git checkout ${_git_revision}
+}
+
+do_configure() {
+	cd ${wrksrc}
+	# Patch gdk-pixbuf version requirement
+	sed -i 's/>= 2.44/>= 2.42/' meson.build
+	meson setup build \
+		--prefix=/usr \
+		--libdir=/usr/lib${XBPS_TARGET_WORDSIZE} \
+		--wrap-mode=forcefallback
+}
+
+do_build() {
+	cd ${wrksrc}
+	meson compile -C build
+}
+
+do_install() {
+	cd ${wrksrc}
+	meson install -C build --destdir ${DESTDIR}
+}
