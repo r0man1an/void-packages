@@ -1,0 +1,31 @@
+# Template file for 'policycoreutils'
+pkgname=policycoreutils
+version=3.11
+revision=1
+build_style=gnu-makefile
+hostmakedepends="gettext pkg-config"
+makedepends="libsepol-devel libselinux-devel libsemanage-devel
+ pam-devel libcap-ng-devel libaudit-devel"
+depends="libsepol libselinux libsemanage"
+short_desc="SELinux core policy utilities"
+maintainer="You <you@example.com>"
+license="GPL-2.0-or-later"
+homepage="http://userspace.selinuxproject.org"
+distfiles="https://github.com/SELinuxProject/selinux/releases/download/${version}/policycoreutils-${version}.tar.gz"
+checksum=054e41ec039731a5ee6b797a8e0b8d6e346ee1d0a9bac2f252db48c23f9a8b1b
+
+post_install() {
+	for d in sbin usr/sbin; do
+		[ -d "${DESTDIR}/${d}" ] || continue
+		vmkdir usr/bin
+
+		for f in "${DESTDIR}/${d}"/*; do
+			[ -e "$f" ] || continue
+			bn="${f##*/}"
+			if [ ! -e "${DESTDIR}/usr/bin/${bn}" ]; then
+				cp -a "$f" "${DESTDIR}/usr/bin/"
+			fi
+		done
+		rm -rf "${DESTDIR}/${d}"
+	done
+}

@@ -1,0 +1,19 @@
+# INSTALL script for selinux-refpolicy
+
+_type="refpolicy"
+_src="/etc/selinux/${_type}/src/policy"
+
+case "${ACTION}" in
+post)
+	if [ -d "${_src}" ]; then
+		echo "Building SELinux ${_type} policy store (this takes a minute)..."
+		( cd "${_src}" && make load ) 2>/dev/null || \
+			echo "  policy store build failed - run 'make load' in ${_src} manually"
+	fi
+	if ls /etc/selinux/${_type}/policy/policy.* >/dev/null 2>&1 && \
+	   [ -f /etc/selinux/${_type}/contexts/files/file_contexts ]; then
+		echo "Relabeling filesystem (permissive-safe)..."
+		setfiles /etc/selinux/${_type}/contexts/files/file_contexts / 2>/dev/null || true
+	fi
+	;;
+esac

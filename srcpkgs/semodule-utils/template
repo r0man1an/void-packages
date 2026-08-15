@@ -1,0 +1,12 @@
+# Template file for 'semodule-utils'
+pkgname=semodule-utils
+version=3.11
+revision=1
+build_style=gnu-makefile
+makedepends="libsepol-devel"
+short_desc="SELinux policy module utilities"
+maintainer="You <you@example.com>"
+license="GPL-2.0-or-later"
+homepage="http://userspace.selinuxproject.org"
+distfiles="https://github.com/SELinuxProject/selinux/releases/download/${version}/semodule-utils-${version}.tar.gz"
+checksum=@b5f008b490c05681ab5c9edd88ec76fab711720825b3726027b90dd896f478e6

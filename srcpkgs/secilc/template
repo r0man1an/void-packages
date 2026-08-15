@@ -1,0 +1,13 @@
+# Template file for 'secilc'
+pkgname=secilc
+version=3.11
+revision=1
+build_style=gnu-makefile
+hostmakedepends="xmlto"
+makedepends="libsepol-devel"
+short_desc="SELinux CIL compiler"
+maintainer="You <you@example.com>"
+license="LGPL-2.1-or-later"
+homepage="http://userspace.selinuxproject.org"
+distfiles="https://github.com/SELinuxProject/selinux/releases/download/${version}/secilc-${version}.tar.gz"
+checksum=1fb7de005d35ae0ac6ff8f8fc955d08a15b5c1a67e961b97ef987576af0db11a

@@ -1,0 +1,28 @@
+KKKK# Template file for 'libsemanage'
+pkgname=libsemanage
+version=3.11
+revision=1
+build_style=gnu-makefile
+make_install_args="SHLIBDIR=/usr/lib"
+hostmakedepends="flex bison swig python3"
+makedepends="libsepol-devel libselinux-devel bzip2-devel libaudit-devel"
+short_desc="SELinux policy management library"
+maintainer="You <you@example.com>"
+license="LGPL-2.1-or-later"
+homepage="http://userspace.selinuxproject.org"
+distfiles="https://github.com/SELinuxProject/selinux/releases/download/${version}/libsemanage-${version}.tar.gz"
+checksum=e76160286bbfb0821602c6c0c3220ebcf366ad3246d3b9d0a0fbefcd35e86043
+CFLAGS="-fcommon"
+shlib_provides="libsemanage.so.2"
+
+libsemanage-devel_package() {
+	short_desc+=" - development files"
+	depends="${sourcepkg}>=${version}_${revision}"
+	pkg_install() {
+		vmove usr/include
+		vmove "usr/lib/*.a"
+		vmove usr/share/man/man3
+		vmove "usr/lib/libsemanage.so"
+		vmove usr/lib/pkgconfig
+	}
+}

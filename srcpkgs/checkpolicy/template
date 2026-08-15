@@ -1,0 +1,13 @@
+# Template file for 'checkpolicy'
+pkgname=checkpolicy
+version=3.11
+revision=1
+build_style=gnu-makefile
+hostmakedepends="flex"
+makedepends="libsepol-devel flex bison"
+short_desc="SELinux policy compiler"
+maintainer="You <you@example.com>"
+license="GPL-2.0-or-later"
+homepage="http://userspace.selinuxproject.org"
+distfiles="https://github.com/SELinuxProject/selinux/releases/download/${version}/checkpolicy-${version}.tar.gz"
+checksum=9b81bfceef7fa9d02f9872e56a786f343dc58ef4b5713dce0d5c416e5b84cefa
